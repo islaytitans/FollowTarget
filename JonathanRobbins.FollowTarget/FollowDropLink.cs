@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Sitecore.Data.Items;
-using Sitecore.Diagnostics;
 using Sitecore.Shell.Framework.Commands;
 using Sitecore.Web;
-using Sitecore.Web.UI.Sheer;
 
 namespace JonathanRobbins.FollowTarget
 {
-    public class FollowTarget : Command
+    public class FollowDropLink : Command
     {
         public override void Execute(CommandContext context)
         {
