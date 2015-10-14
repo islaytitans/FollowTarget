@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sitecore;
+using Sitecore.Data.Items;
 using Sitecore.Shell.Framework.Commands;
 using Sitecore.Web;
 
@@ -14,9 +16,18 @@ namespace JonathanRobbins.FollowTarget
         {
             //SheerResponse.Alert("I am here Jack");
 
-            var targetId = WebUtil.GetFormValue(context.Parameters["fieldId"]);
+            string target = WebUtil.GetFormValue(context.Parameters["fieldId"]);
 
-            Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + targetId + ")");
+            Item contextItem = context.Items.FirstOrDefault();
+
+            if (contextItem != null)
+            {
+                Item targetItem = contextItem.Database.GetItem(StringUtil.EnsurePrefix('/', target));
+
+                target = targetItem != null ? targetItem.ID.ToString() : target;
+            }
+
+            Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + target + ")");
         }
     }
 }
