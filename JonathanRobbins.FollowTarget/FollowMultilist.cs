@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Sitecore.Shell.Applications.ContentEditor;
 using Sitecore.Shell.Framework.Commands;
 using Sitecore.Web;
 
 namespace JonathanRobbins.FollowTarget
 {
-    public class ClearDropLink : Command
+    public class FollowMultilist : Command
     {
         public override void Execute(CommandContext context)
         {
@@ -17,9 +16,7 @@ namespace JonathanRobbins.FollowTarget
 
             var targetId = WebUtil.GetFormValue(context.Parameters["fieldId"]);
 
-            //this.XmlValue = new XmlValue(string.Empty, "link");
-            //this.Value = string.Empty;
-            //Sitecore.Context.ClientPage.ClientResponse.SetAttribute(this.ID, "value", string.Empty);
+            Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + targetId + ")");
         }
     }
 }
