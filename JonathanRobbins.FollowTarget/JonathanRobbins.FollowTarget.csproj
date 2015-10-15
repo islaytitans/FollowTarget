@@ -53,8 +53,6 @@
     <Compile Include="FollowTarget.cs" />
     <Compile Include="FollowGroupedDroplink.cs" />
     <Compile Include="FollowGroupedDroplist.cs" />
-    <Compile Include="FollowTreelist.cs" />
-    <Compile Include="FollowTreelistEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

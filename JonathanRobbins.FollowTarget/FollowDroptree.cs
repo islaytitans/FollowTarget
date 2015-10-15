@@ -14,15 +14,16 @@ namespace JonathanRobbins.FollowTarget
     {
         public override void Execute(CommandContext context)
         {
-            //SheerResponse.Alert("I am here Jack");
-
             string target = WebUtil.GetFormValue(context.Parameters["fieldId"]);
 
             Item contextItem = context.Items.FirstOrDefault();
 
             if (contextItem != null)
             {
-                Item targetItem = contextItem.Database.GetItem(StringUtil.EnsurePrefix('/', target));
+                Guid guid;
+                bool parsed = Guid.TryParse(target, out guid);
+
+                Item targetItem = contextItem.Database.GetItem(parsed ? guid.ToString() : StringUtil.EnsurePrefix('/', target));
 
                 target = targetItem != null ? targetItem.ID.ToString() : target;
             }
