@@ -46,11 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClearDropLink.cs" />
     <Compile Include="FollowDropLink.cs" />
     <Compile Include="FollowDroptree.cs" />
     <Compile Include="FollowMultilist.cs" />
-    <Compile Include="FollowTarget.cs" />
     <Compile Include="FollowGroupedDroplink.cs" />
     <Compile Include="FollowGroupedDroplist.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
