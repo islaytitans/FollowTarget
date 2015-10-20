@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FollowDropLink.cs" />
+    <Compile Include="FollowDroplist.cs" />
     <Compile Include="FollowDroptree.cs" />
     <Compile Include="FollowMultilist.cs" />
     <Compile Include="FollowGroupedDroplink.cs" />
