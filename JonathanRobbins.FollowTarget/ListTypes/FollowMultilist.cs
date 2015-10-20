@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sitecore.Shell.Framework.Commands;
+﻿using Sitecore.Shell.Framework.Commands;
 using Sitecore.Web;
 
-namespace JonathanRobbins.FollowTarget
+namespace JonathanRobbins.FollowTarget.ListTypes
 {
     public class FollowMultilist : Command
     {

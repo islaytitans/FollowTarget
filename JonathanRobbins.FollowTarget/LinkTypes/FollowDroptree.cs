@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Sitecore;
 using Sitecore.Data.Items;
 using Sitecore.Shell.Framework.Commands;
 using Sitecore.Web;
 
-namespace JonathanRobbins.FollowTarget
+namespace JonathanRobbins.FollowTarget.LinkTypes
 {
     public class FollowDroptree : Command
     {
