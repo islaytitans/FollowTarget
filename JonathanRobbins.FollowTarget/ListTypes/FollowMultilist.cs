@@ -8,27 +8,26 @@ namespace JonathanRobbins.FollowTarget.ListTypes
     {
         public override void Execute(CommandContext context)
         {
-            //SheerResponse.Alert("I am here Jack");
+            string targetId = string.Empty;
 
-            var targetId = WebUtil.GetFormValue(context.Parameters["fieldId"]);
+            var fieldId = context.Parameters["fieldId"];
 
-            var form = System.Web.HttpContext.Current.Request.Form;
-
-            Dictionary<string, string> values = new Dictionary<string, string>();
-
-            int j = 100;
-            
-            foreach (var i in form.AllKeys)
+            if (!string.IsNullOrEmpty(fieldId))
             {
-                values.Add(i != null ? i : j.ToString(), form[i]);
-                j++;
+                var form = System.Web.HttpContext.Current.Request.Form;
+
+                if (form != null)
+                {
+                    targetId = form[fieldId + Constants.Selected];
+
+                    if (string.IsNullOrEmpty(targetId))
+                    {
+                        targetId = form[fieldId + Constants.Unselected];
+                    }
+                }
             }
 
-            var id = form[context.Parameters["fieldId"] + "_selected"];
-
-            Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + id + ")");
-
-            
+            Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + targetId + ")");
         }
     }
 }
