@@ -19,24 +19,20 @@ namespace JonathanRobbins.FollowTarget.ListTypes
 
             if (item != null && !string.IsNullOrEmpty(targetName))
             {
-                foreach (Field field in context.Items[0].Fields)
+                foreach (Field field in item.Fields.Where(Utility.IsDropListField))
                 {
-                    if (field.HasValue && field.Value.Equals(targetName))
+                    if (field.HasValue && field.Value.Equals(targetName) && !string.IsNullOrEmpty(field.Source))
                     {
-                        string source = field.Source;
+                        Item sourceItem = item.Database.GetItem(field.Source);
 
-                        if (!string.IsNullOrEmpty(source))
+                        if (sourceItem != null)
                         {
-                            Item sourceItem = item.Database.GetItem(source);
+                            Item targetItem = sourceItem.Children.FirstOrDefault(c => c.Name == targetName);
 
-                            if (sourceItem != null)
+                            if (targetItem != null)
                             {
-                                Item targetItem = sourceItem.Children.FirstOrDefault(c => c.Name == targetName);
-
-                                if (targetItem != null)
-                                {
-                                    id = targetItem.ID.ToString();
-                                }
+                                id = targetItem.ID.ToString();
+                                break;
                             }
                         }
                     }

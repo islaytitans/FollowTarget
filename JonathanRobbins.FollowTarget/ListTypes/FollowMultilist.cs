@@ -18,11 +18,11 @@ namespace JonathanRobbins.FollowTarget.ListTypes
 
                 if (form != null)
                 {
-                    targetId = form[fieldId + Constants.Selected];
+                    targetId = form[fieldId + Utility.Selected];
 
                     if (string.IsNullOrEmpty(targetId))
                     {
-                        targetId = form[fieldId + Constants.Unselected];
+                        targetId = form[fieldId + Utility.Unselected];
                     }
                 }
             }
