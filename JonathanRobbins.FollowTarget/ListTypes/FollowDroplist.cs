@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Sitecore.Data.Fields;
+using Sitecore.Data.Items;
 using Sitecore.Shell.Framework.Commands;
 using Sitecore.Web;
 
@@ -8,29 +11,39 @@ namespace JonathanRobbins.FollowTarget.ListTypes
     {
         public override void Execute(CommandContext context)
         {
-            var targetId = WebUtil.GetFormValue(context.Parameters["fieldId"]);
+            string id = string.Empty;
 
-            //SheerResponse.Alert("I am here Jack");
+            Item item = context.Items[0];
 
-            var fieldId = WebUtil.GetFormValue(context.Parameters["fieldId"]);
+            var targetName = WebUtil.GetFormValue(context.Parameters["fieldId"]);
 
-            var form = System.Web.HttpContext.Current.Request.Form;
-
-            Dictionary<string, string> values = new Dictionary<string, string>();
-
-            int j = 100;
-
-            foreach (var i in form.AllKeys)
+            if (item != null && !string.IsNullOrEmpty(targetName))
             {
-                values.Add(i != null ? i : j.ToString(), form[i]);
-                j++;
+                foreach (Field field in context.Items[0].Fields)
+                {
+                    if (field.HasValue && field.Value.Equals(targetName))
+                    {
+                        string source = field.Source;
+
+                        if (!string.IsNullOrEmpty(source))
+                        {
+                            Item sourceItem = item.Database.GetItem(source);
+
+                            if (sourceItem != null)
+                            {
+                                Item targetItem = sourceItem.Children.FirstOrDefault(c => c.Name == targetName);
+
+                                if (targetItem != null)
+                                {
+                                    id = targetItem.ID.ToString();
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
-            var id = form[fieldId + Constants.Selected];
-
             Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + id + ")");
-
-
         }
     }
 }
