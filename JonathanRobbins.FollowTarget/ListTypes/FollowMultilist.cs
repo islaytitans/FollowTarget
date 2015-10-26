@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Sitecore.Data;
 using Sitecore.Shell.Framework.Commands;
 using Sitecore.Web;
 
@@ -8,7 +9,8 @@ namespace JonathanRobbins.FollowTarget.ListTypes
     {
         public override void Execute(CommandContext context)
         {
-            string targetId = string.Empty;
+            ID id = ID.Null;
+            bool isId = false;
 
             var fieldId = context.Parameters["fieldId"];
 
@@ -18,16 +20,18 @@ namespace JonathanRobbins.FollowTarget.ListTypes
 
                 if (form != null)
                 {
-                    targetId = form[fieldId + Utility.Selected];
+                    string targetId = form[string.Format("{0}{1}", fieldId, Constants.Selected)];
 
                     if (string.IsNullOrEmpty(targetId))
                     {
-                        targetId = form[fieldId + Utility.Unselected];
+                        targetId = form[string.Format("{0}{1}", fieldId, Constants.Unselected)];
                     }
+
+                    isId = ID.TryParse(targetId, out id);
                 }
             }
 
-            Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + targetId + ")");
+            Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + (isId ? id.ToString() : string.Empty) + ")");
         }
     }
 }

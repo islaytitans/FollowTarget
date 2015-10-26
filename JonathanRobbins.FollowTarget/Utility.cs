@@ -9,9 +9,6 @@ namespace JonathanRobbins.FollowTarget
 {
     public class Utility
     {
-        public const string Selected = "_selected";
-        public const string Unselected = "_unselected";
-
         public static bool IsDropListField(Field f)
         {
             return (FieldTypeManager.GetField(f) is ValueLookupField

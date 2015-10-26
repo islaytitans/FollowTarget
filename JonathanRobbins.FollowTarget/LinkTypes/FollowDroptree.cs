@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sitecore;
+using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Shell.Framework.Commands;
@@ -13,22 +14,17 @@ namespace JonathanRobbins.FollowTarget.LinkTypes
     {
         public override void Execute(CommandContext context)
         {
+            ID id = ID.Null;
+
             string target = WebUtil.GetFormValue(context.Parameters["fieldId"]);
 
             Item item = context.Items.FirstOrDefault();
 
-            string id = String.Empty;
-
             if (item != null && !string.IsNullOrEmpty(target))
             {
-                Guid guid;
-                bool parsed = Guid.TryParse(target, out guid);
+                bool parsed = ID.TryParse(target, out id);
 
-                if (parsed)
-                {
-                    id = guid.ToString();
-                }
-                else
+                if (!parsed)
                 {
                     foreach (Field field in item.Fields.Where(Utility.IsDroptreeField))
                     {
@@ -45,7 +41,7 @@ namespace JonathanRobbins.FollowTarget.LinkTypes
 
                             if (targetItem.DisplayName.Equals(target, StringComparison.InvariantCultureIgnoreCase))
                             {
-                                id = targetItem.ID.ToString();
+                                id = targetItem.ID;
                                 break;
                             }
                         }
@@ -53,7 +49,7 @@ namespace JonathanRobbins.FollowTarget.LinkTypes
                 }
             }
 
-            Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + id + ")");
+            Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + (id != ID.Null ? id.ToString() : string.Empty) + ")");
         }
     }
 }

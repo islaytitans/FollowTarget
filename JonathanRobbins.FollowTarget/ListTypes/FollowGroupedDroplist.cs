@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Shell.Framework.Commands;
@@ -12,7 +13,7 @@ namespace JonathanRobbins.FollowTarget.ListTypes
     {
         public override void Execute(CommandContext context)
         {
-            string id = string.Empty;
+            ID id = ID.Null;
 
             Item item = context.Items[0];
 
@@ -35,7 +36,7 @@ namespace JonathanRobbins.FollowTarget.ListTypes
 
                             if (targetItem != null)
                             {
-                                id = targetItem.ID.ToString();
+                                id = targetItem.ID;
                                 break;
                             }
                         }
@@ -43,7 +44,7 @@ namespace JonathanRobbins.FollowTarget.ListTypes
                 }
             }
 
-            Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + id + ")");
+            Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + (id != ID.Null ? id.ToString() : string.Empty) + ")");
         }
     }
 }

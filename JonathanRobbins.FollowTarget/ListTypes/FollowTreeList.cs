@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sitecore.Data;
 using Sitecore.Shell.Framework.Commands;
 
 namespace JonathanRobbins.FollowTarget.ListTypes
@@ -11,7 +12,8 @@ namespace JonathanRobbins.FollowTarget.ListTypes
     {
         public override void Execute(CommandContext context)
         {
-            string targetId = string.Empty;
+            ID id = ID.Null;
+            bool isId = false;
 
             var fieldId = context.Parameters["fieldId"];
 
@@ -23,18 +25,20 @@ namespace JonathanRobbins.FollowTarget.ListTypes
                 {
                     string rawValue = string.Empty;
 
-                    rawValue = form[fieldId + Utility.Selected];
+                    rawValue = form[string.Format("{0}{1}", fieldId, Constants.Selected)];
 
                     if (string.IsNullOrEmpty(rawValue))
                     {
-                        rawValue = form[fieldId + Utility.Unselected];
+                        rawValue = form[string.Format("{0}{1}", fieldId, Constants.AllSelected)];
                     }
 
-                    targetId = rawValue.Substring(rawValue.LastIndexOf("|", StringComparison.InvariantCultureIgnoreCase) + 1);
+                    string targetId = rawValue.Substring(rawValue.LastIndexOf("|", StringComparison.InvariantCultureIgnoreCase) + 1);
+
+                    isId = ID.TryParse(targetId, out id);
                 }
             }
 
-            Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + targetId + ")");
+            Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + (isId ? id.ToString() : string.Empty) + ")");
         }
     }
 }
