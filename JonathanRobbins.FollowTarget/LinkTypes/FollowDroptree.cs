@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sitecore;
+using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Shell.Framework.Commands;
 using Sitecore.Web;
@@ -13,19 +15,45 @@ namespace JonathanRobbins.FollowTarget.LinkTypes
         {
             string target = WebUtil.GetFormValue(context.Parameters["fieldId"]);
 
-            Item contextItem = context.Items.FirstOrDefault();
+            Item item = context.Items.FirstOrDefault();
 
-            if (contextItem != null)
+            string id = String.Empty;
+
+            if (item != null && !string.IsNullOrEmpty(target))
             {
                 Guid guid;
                 bool parsed = Guid.TryParse(target, out guid);
 
-                Item targetItem = contextItem.Database.GetItem(parsed ? guid.ToString() : StringUtil.EnsurePrefix('/', target));
+                if (parsed)
+                {
+                    id = guid.ToString();
+                }
+                else
+                {
+                    foreach (Field field in item.Fields.Where(Utility.IsDroptreeField))
+                    {
+                        if (field.HasValue && !string.IsNullOrEmpty(field.Source))
+                        {
+                            Item targetItem = item.Database.GetItem(field.Value);
+                            if (targetItem == null)
+                                continue;
 
-                target = targetItem != null ? targetItem.ID.ToString() : target;
+                            if (target.Contains("/"))
+                            {
+                                target = target.Substring(target.LastIndexOf("/", StringComparison.CurrentCultureIgnoreCase) + 1);
+                            }
+
+                            if (targetItem.DisplayName.Equals(target, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                id = targetItem.ID.ToString();
+                                break;
+                            }
+                        }
+                    }
+                }
             }
 
-            Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + target + ")");
+            Sitecore.Context.ClientPage.SendMessage(this, "item:load(id=" + id + ")");
         }
     }
 }

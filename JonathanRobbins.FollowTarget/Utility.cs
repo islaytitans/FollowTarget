@@ -22,5 +22,10 @@ namespace JonathanRobbins.FollowTarget
         {
             return (FieldTypeManager.GetField(f) is GroupedDroplistField);
         }
+
+        public static bool IsDroptreeField(Field f)
+        {
+            return (FieldTypeManager.GetField(f) is ReferenceField);
+        }
     }
 }
