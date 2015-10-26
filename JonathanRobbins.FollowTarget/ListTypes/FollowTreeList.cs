@@ -35,6 +35,20 @@ namespace JonathanRobbins.FollowTarget.ListTypes
                     string targetId = rawValue.Substring(rawValue.LastIndexOf("|", StringComparison.InvariantCultureIgnoreCase) + 1);
 
                     isId = ID.TryParse(targetId, out id);
+
+                    // BUG fix - ID.TryParse fails unformatted ID string passed by FIELDID_all_selected
+                    if (!isId)
+                    {
+                        try
+                        {
+                            id = new ID(targetId);
+                            isId = true;
+                        }
+                        catch (Exception e)
+                        {
+                            isId = false;
+                        }
+                    }
                 }
             }
 
