@@ -11,5 +11,6 @@ namespace JonathanRobbins.FollowTarget
         public const string Selected = "_selected";
         public const string Unselected = "_unselected";
         public const string AllSelected = "_all_Selected";
+        public const string QueryPrefix = "query:.";
     }
 }
