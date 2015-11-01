@@ -3,6 +3,7 @@ using System.Linq;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
+using Sitecore.Install.Files;
 using Sitecore.Shell.Framework.Commands;
 using Sitecore.Web;
 using Sitecore.Web.UI.Sheer;
@@ -25,20 +26,29 @@ namespace JonathanRobbins.FollowTarget.ListTypes
                 {
                     if (field.HasValue && field.Value.Equals(targetName) && !string.IsNullOrEmpty(field.Source))
                     {
+                        var grandChildren = new List<Item>();
+
                         Item sourceItem = item.Database.GetItem(field.Source);
 
                         if (sourceItem != null)
                         {
-                            List<Item> grandChildren = (from c in sourceItem.Children
+                            grandChildren = (from c in sourceItem.Children
                                 select c.GetChildren()).SelectMany(g => g).ToList();
+                        }
+                        else
+                        {
+                            List<Item> children = Utility.GetItemsFromQuery(field.Source, item).ToList();
 
-                            Item targetItem = grandChildren.FirstOrDefault(c => c.Name == targetName);
+                            grandChildren = (from c in children
+                                             select c.GetChildren()).SelectMany(g => g).ToList();
+                        }
 
-                            if (targetItem != null)
-                            {
-                                id = targetItem.ID;
-                                break;
-                            }
+                        Item targetItem = grandChildren.FirstOrDefault(c => c.Name == targetName);
+
+                        if (targetItem != null)
+                        {
+                            id = targetItem.ID;
+                            break;
                         }
                     }
                 }

@@ -24,19 +24,13 @@ namespace JonathanRobbins.FollowTarget.ListTypes
                 {
                     if (field.HasValue && field.Value.Equals(targetName) && !string.IsNullOrEmpty(field.Source))
                     {
-                        ID idSource;
-                        bool isId = ID.TryParse(field.Source, out idSource);
-
                         var itemsToCheck = new List<Item>();
 
-                        if (isId)
-                        {
-                            Item sourceItem = item.Database.GetItem(field.Source);
+                        Item sourceItem = item.Database.GetItem(field.Source);
 
-                            if (sourceItem != null)
-                            {
-                                itemsToCheck = sourceItem.Children.ToList();
-                            }
+                        if (sourceItem != null)
+                        {
+                            itemsToCheck = sourceItem.Children.ToList();
                         }
                         else
                         {
