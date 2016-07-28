@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="DeprecatedTypes\FollowTreelist.cs" />
     <Compile Include="ListTypes\FollowTreelist.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="LinkTypes\FollowDropLink.cs" />
@@ -60,6 +61,7 @@
   <ItemGroup>
     <None Include="App_Config\Include\JonathanRobbins.FollowTarget.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
