@@ -30,11 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Sitecore.Client">
-      <HintPath>..\..\Lib\Sitecore.Client.dll</HintPath>
-    </Reference>
     <Reference Include="Sitecore.Kernel">
-      <HintPath>..\..\Lib\Sitecore.Kernel.dll</HintPath>
+      <HintPath>bin\Sitecore.Kernel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,6 +46,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="DeprecatedTypes\FollowTreelist.cs" />
     <Compile Include="ListTypes\FollowTreelist.cs" />
+    <Compile Include="Pipelines\AddFollowLink.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="LinkTypes\FollowDropLink.cs" />
     <Compile Include="LinkTypes\FollowDroptree.cs" />
@@ -59,6 +57,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App_Config\Include\JonathanRobbins.FollowTargetPipeline.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="App_Config\Include\JonathanRobbins.FollowTarget.config" />
   </ItemGroup>
   <ItemGroup />
